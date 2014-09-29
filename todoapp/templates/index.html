@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% load staticfiles %}
+	<link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.min.css" %}" />
+	<link rel="stylesheet" href="{% static "main.css" %}" />
+	<link rel="stylesheet" href="{% static "font-awesome/css/font-awesome.min.css" %}">
+	<link rel="stylesheet" href="{% static "bootstrap-datetimepicker.min.css" %}" />	
+	<script src="{% static "jquery.min.js" %}"></script>
+	<script src="{% static "main.js" %}"></script>
+	<script src="{% static "jquery-ui/jquery-ui.min.js" %}"></script>	
+	<script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+	<script src="{% static "bootstrap-datetimepicker.js" %}"></script>
+	<title>{% block title %}Todo main{% endblock %}</title>
+</head>
+
+<body>
+	<div class="container-fluid header">
+		<div class="container">
+			<div class="span4">
+				<h3>Todo-service</h3>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<header class="header-title">
+			<span>Make todo</span>
+		</header>
+	</div>
+
+	<div class="container add-js">
+		<div class="well clearfix quest-add-form">
+			<div class="alert alert-danger js-alert" style="display: none" role="alert">Please, fill at least Title and Datetime fields</div>
+			<div class="form-row">
+				<label>
+					<small class="muted">Write a short description of the todo here.</small>
+				</label>
+				<input id="title" type="text" class="input-large" placeholder="What's your next goal?" value="" id="title">
+			</div>
+			<div class="form-row">
+				<label>
+					<small class="muted">Description:</small>
+				</label>
+				<div class="helper-textarea">
+					<div class="helper-textarea-main">
+						<textarea class="todo-textarea" placeholder="Todo details are optional." value="" id="text"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<label>
+						<small class="muted">Your name</small>
+					</label>
+					<input id="author" type="text" class="input-name" placeholder="Name" value="">
+				</div>
+				<div class="">
+					<div id="datetimepicker2" class="input-append datepicker">
+						<label>
+							<small class="muted">Deadline:</small>
+						</label>
+						<input id="deadline" data-format="MM/dd/yyyy HH:mm:ss PP" type="text" placeholder="Pick deadline date"></input>
+							<span class="add-on">
+								<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+							</span>
+							<button type="button" class="btn btn-primary addbtn">Add</button>
+					</div>
+				</div>
+
+				<script type="text/javascript">
+				 	$(function() {
+						$('#datetimepicker2').datetimepicker({
+							language: 'en',
+							pick12HourFormat: true
+						});
+					});//a.data().date pick date
+				</script>
+		</div>
+	</div>
+
+	{% for todo in todos %}
+	<div class="container todo-container" id="{{todo.id}}" value="{{todo.isdone}}">
+		<div class="todo">
+			<div class="todo-inner__firstline">
+				<button type="button" class="btn btn-default checkbutton js-check" style="vertical-align: super" id="{{todo.id}}">
+					<i class="fa fa-square-o js-checkicon" cls="fa fa-check-square-o" id="{{todo.id}}"></i>
+				</button>
+				<i class="fa fa-user fa-2x user-icon"></i>
+				<span class="username">{{todo.author}}</span>
+				<i class="fa fa-times close-icon js-delete" id="{{todo.id}}"></i>
+			</div>
+			<div class="todo-inner__line todo-margin">
+				{{ todo.title }}
+			</div>
+			<p class="todo-text todo-margin">
+				{{ todo.text }}
+			</p>	
+			<div class="todo-margin todo-timeago">
+				<span>Deadline:&nbsp{{todo.deadline}}</span>
+				<span style="float: right">Added:&nbsp{{todo.time}}</span>
+				<div id="{{todo.id}}" value="{{ todo.deadline|date:"U" }}" class="timestamp"></div>
+				<input type="hidden">
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+
+</body>
+</html>
+

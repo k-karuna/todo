@@ -1,0 +1,26 @@
+	{% for todo in todos %}
+	<div class="container todo-container" id="{{todo.id}}" value="{{todo.isdone}}">
+		<div class="todo">
+			<div class="todo-inner__firstline">
+				<button type="button" class="btn btn-default checkbutton js-check" style="vertical-align: super" id="{{todo.id}}">
+					<i class="fa fa-square-o js-checkicon" cls="fa fa-check-square-o" id="{{todo.id}}"></i>
+				</button>
+				<i class="fa fa-user fa-2x user-icon"></i>
+				<span class="username">{{todo.author}}</span>
+				<i class="fa fa-times close-icon js-delete" id="{{todo.id}}"></i>
+			</div>
+			<div class="todo-inner__line todo-margin">
+				{{ todo.title }}
+			</div>
+			<p class="todo-text todo-margin">
+				{{ todo.text }}
+			</p>	
+			<div class="todo-margin todo-timeago">
+				<span>Deadline:&nbsp{{todo.deadline}}</span>
+				<span style="float: right">Added:&nbsp{{todo.time}}</span>
+				<div id="{{todo.id}}" value="{{ todo.deadline|date:"U" }}" class="timestamp"></div>
+				<input type="hidden">
+			</div>
+		</div>
+	</div>
+	{% endfor %}
